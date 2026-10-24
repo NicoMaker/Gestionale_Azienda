@@ -9,4 +9,7 @@ export const h = (tag, props = {}, ...kids) => {
   e.append(...kids.flat().filter((x) => x != null && x !== false));
   return e;
 };
-export const euro = (n) => new Intl.NumberFormat("it-IT", { style: "currency", currency: "EUR" }).format(n || 0);
+export const euro = (n) =>
+  new Intl.NumberFormat("it-IT", { style: "currency", currency: "EUR" }).format(
+    n || 0,
+  );

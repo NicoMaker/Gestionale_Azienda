@@ -1,15 +1,32 @@
 /* Colori e misure: tema finanza (navy · smeraldo · oro), chiaro e scuro automatico */
 :root {
-  --bg: #f3f6f4; --card: #fff; --tx: #0f1f2e; --mu: #5d7080; --bd: #dbe4e1;
-  --ac: #0f766e; --navy: #0b2a4a; --gold: #c9a227; --up: #059669; --dn: #e11d48;
+  --bg: #f3f6f4;
+  --card: #fff;
+  --tx: #0f1f2e;
+  --mu: #5d7080;
+  --bd: #dbe4e1;
+  --ac: #0f766e;
+  --navy: #0b2a4a;
+  --gold: #c9a227;
+  --up: #059669;
+  --dn: #e11d48;
   --grad: linear-gradient(135deg, #0b2a4a 0%, #0f766e 70%, #10b981 130%);
-  --r: 18px; --sh: 0 1px 2px rgba(11, 42, 74, .05), 0 16px 36px -22px rgba(11, 42, 74, .4);
+  --r: 18px;
+  --sh:
+    0 1px 2px rgba(11, 42, 74, 0.05), 0 16px 36px -22px rgba(11, 42, 74, 0.4);
   --font: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #08141c; --card: #0e212c; --tx: #e6f1ee; --mu: #8fa9b0; --bd: #1c3441;
-    --ac: #2dd4bf; --gold: #e5c04b; --up: #34d399; --dn: #fb7185;
-    --sh: 0 20px 44px -24px rgba(0, 0, 0, .8);
+    --bg: #08141c;
+    --card: #0e212c;
+    --tx: #e6f1ee;
+    --mu: #8fa9b0;
+    --bd: #1c3441;
+    --ac: #2dd4bf;
+    --gold: #e5c04b;
+    --up: #34d399;
+    --dn: #fb7185;
+    --sh: 0 20px 44px -24px rgba(0, 0, 0, 0.8);
   }
 }
