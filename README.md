@@ -9,9 +9,9 @@ npm start        # http://localhost:3000
 
 - `frontend/`: interfaccia con `components/` (sidebar, dashboard, data-table, modal-form, toast), `pages/`, `config/entities.js`, `core/`
 - `backend/`: API REST con `components/` (clienti, prodotti, fatture, dashboard) e `db/database.js` (schema + dati di esempio)
-- `docs/`: schemi Mermaid, `schema-db.mmd` (database) e `architettura.mmd` (componenti)
+- `docs/`: schema db
 
-Per aggiungere una sezione: una voce in `front/config/entities.js` e un router in `back/components/<nome>/`.
+Per aggiungere una sezione: una voce in `frontend/config/entities.js` e un router in `backend/components/<nome>/`.
 
 ## 100 tabelle
 
