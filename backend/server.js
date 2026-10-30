@@ -3,6 +3,7 @@ const express = require("express");
 const path = require("node:path");
 const db = require("./db/database");
 const { tabelle } = require("./db/schema-loader");
+const { stampaAvvio } = require("./rete");
 
 const app = express();
 app.disable("x-powered-by");
@@ -35,6 +36,4 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3000;
-db.init().then(() =>
-  app.listen(PORT, () => console.log(`Gestionale su http://localhost:${PORT}`)),
-);
+db.init().then(() => app.listen(PORT, "0.0.0.0", () => stampaAvvio(PORT)));
