@@ -1,8 +1,9 @@
 import { h } from "../../core/dom.js";
 import { icona } from "../../core/icons.js";
-import { Button } from "../button/button.js";
+import { ExportMenu, vociFormati } from "../export-menu/export-menu.js";
 
-// Barra sopra la tabella: ricerca, conteggio ed esportazione.
+// Barra sopra la tabella: ricerca, conteggio ed esportazione (Excel, PDF, CSV).
+// `onEsporta(formato)` riceve «xlsx», «pdf» o «csv».
 // Il risultato espone `.input` e `.conta(testo)`.
 export function TableToolbar({ onCerca, onEsporta }) {
   const input = h("input", {
@@ -23,7 +24,7 @@ export function TableToolbar({ onCerca, onEsporta }) {
       input,
     ),
     conta,
-    Button({ testo: "Esporta CSV", icon: "download", onclick: onEsporta }),
+    ExportMenu({ voci: vociFormati(onEsporta) }),
   );
   el.input = input;
   el.conta = (t) => (conta.textContent = t);

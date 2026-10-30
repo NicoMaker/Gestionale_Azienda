@@ -1,0 +1,80 @@
+.cat-griglia {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 14px;
+  margin-top: 6px;
+}
+.cat {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  transition: border-color 0.15s;
+}
+.cat:hover {
+  border-color: light-dark(oklch(0.6 0.15 var(--h)), oklch(0.75 0.12 var(--h)));
+}
+.cat-testa {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.cat-testa > div:nth-child(2) {
+  flex: 1;
+  min-width: 0;
+}
+.cat-testa h3 {
+  margin: 0;
+  font-size: 1.02rem;
+}
+.cat-testa h3 a {
+  color: var(--ink);
+  text-decoration: none;
+}
+.cat-testa small {
+  color: var(--mu);
+  font-size: 0.8rem;
+}
+.cat-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+.cat-lista li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 5px 0;
+  border-bottom: 1px dashed var(--line);
+  font-size: 0.88rem;
+}
+.cat-lista li:last-child {
+  border-bottom: 0;
+}
+.cat-lista a {
+  color: var(--ink);
+  text-decoration: none;
+}
+.cat-lista a:hover {
+  color: var(--ac);
+}
+.cat-lista em {
+  font-style: normal;
+  color: var(--mu);
+  font-variant-numeric: tabular-nums;
+}
+.cat-apri {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: auto;
+  color: var(--ac);
+  font-weight: 600;
+  font-size: 0.86rem;
+  text-decoration: none;
+}

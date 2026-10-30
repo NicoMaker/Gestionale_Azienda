@@ -14,7 +14,7 @@ export const AreaGrid = (gruppi) =>
         h(
           "a",
           {
-            href: "#" + g.tabelle[0].nome,
+            href: "#cat/" + g.id,
             class: "area",
             style: `--h:${tonoGruppo(g.id)}`,
           },

@@ -3,31 +3,49 @@ import { applicaTema } from "../core/store.js";
 import { Sidebar } from "../components/sidebar/sidebar.js";
 import { Topbar } from "../components/topbar/topbar.js";
 import { Dashboard } from "../components/dashboard/dashboard.js";
+import { HomePage } from "../pages/home-page.js";
+import { CategoryPage } from "../pages/category-page.js";
 import { EntityPage } from "../pages/entity-page.js";
-import { ENTITIES, caricaSchema } from "../config/entities.js";
+import { ENTITIES, GRUPPI, caricaSchema } from "../config/entities.js";
 import { Skeleton } from "../components/skeleton/skeleton.js";
 import { toast } from "../components/toast/toast.js";
 import { apriRicerca } from "../components/command-palette/command-palette.js";
 
 applicaTema();
 
-// Router a hash: #dashboard, #clienti, #fatture, …
+// Router a hash: #home (pagina generale), #cat/vendite (categoria), #dashboard, #clienti, #fatture, …
 let giro = 0;
 async function mostra() {
   const mio = ++giro;
   document.body.classList.remove("menu-aperto");
   const nome = location.hash.slice(1);
-  const attiva = nome in ENTITIES ? nome : "dashboard";
+  const catId = nome.startsWith("cat/") ? nome.slice(4) : null;
+  const attiva =
+    nome in ENTITIES || nome === "dashboard"
+      ? nome
+      : GRUPPI.some((g) => g.id === catId)
+        ? nome
+        : "home";
   document.getElementById("sidebar").replaceChildren(Sidebar(attiva));
   document
     .getElementById("topbar")
     .replaceChildren(Topbar(attiva, apriRicerca));
-  document.title = (ENTITIES[attiva]?.titolo || "Dashboard") + " · Gestionale";
+  const titolo =
+    ENTITIES[attiva]?.titolo ||
+    (catId && GRUPPI.find((g) => g.id === catId)?.titolo) ||
+    (attiva === "dashboard" ? "Dashboard" : "Panoramica");
+  document.title = titolo + " · Gestionale";
   const view = document.getElementById("view");
   view.replaceChildren(Skeleton());
   try {
     const pagina =
-      attiva === "dashboard" ? await Dashboard() : await EntityPage(attiva);
+      attiva === "home"
+        ? await HomePage()
+        : attiva === "dashboard"
+          ? await Dashboard()
+          : attiva.startsWith("cat/")
+            ? await CategoryPage(catId)
+            : await EntityPage(attiva);
     if (mio !== giro) return; // nel frattempo l'utente è passato a un'altra sezione
     view.replaceChildren(pagina);
     scrollTo({ top: 0 });

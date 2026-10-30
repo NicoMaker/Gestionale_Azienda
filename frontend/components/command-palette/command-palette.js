@@ -3,16 +3,23 @@ import { icona, tonoGruppo } from "../../core/icons.js";
 import { apriDialog } from "../dialog/dialog.js";
 import { GRUPPI } from "../../config/entities.js";
 
-// Ricerca rapida (Ctrl/⌘ + K): salta a qualsiasi delle 100 sezioni
+// Ricerca rapida (Ctrl/⌘ + K): salta a una categoria o a una delle 100 sezioni
 export function apriRicerca() {
   if (document.querySelector(".palette")) return;
   const voci = [
+    { nome: "home", titolo: "Panoramica", gruppo: "Pagina generale", g: "home" },
     {
       nome: "dashboard",
       titolo: "Dashboard",
       gruppo: "Panoramica",
       g: "dashboard",
     },
+    ...GRUPPI.map((g) => ({
+      nome: "cat/" + g.id,
+      titolo: g.titolo,
+      gruppo: "Categoria",
+      g: g.id,
+    })),
     ...GRUPPI.flatMap((g) =>
       g.tabelle.map((t) => ({
         nome: t.nome,

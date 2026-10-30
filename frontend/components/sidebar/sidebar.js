@@ -3,9 +3,9 @@ import { icona, tonoGruppo } from "../../core/icons.js";
 import { IconButton } from "../button/button.js";
 import { GRUPPI, ENTITIES } from "../../config/entities.js";
 
-// Menu laterale: Dashboard, 10 gruppi a tendina con le 100 sezioni, backup
+// Menu laterale: Panoramica, Dashboard, 10 categorie a tendina con le 100 sezioni, esportazione e backup
 export function Sidebar(attiva) {
-  const gAttivo = ENTITIES[attiva]?.gruppo;
+  const gAttivo = ENTITIES[attiva]?.gruppo ?? (attiva.startsWith("cat/") ? attiva.slice(4) : null);
   const link = (t) =>
     h(
       "a",
@@ -32,7 +32,19 @@ export function Sidebar(attiva) {
         h("em", {}, g.tabelle.length),
         h("span", { class: "freccia", html: icona("chevron", 14) }),
       ),
-      h("div", { class: "sb-voci" }, g.tabelle.map(link)),
+      h(
+        "div",
+        { class: "sb-voci" },
+        h(
+          "a",
+          {
+            href: "#cat/" + g.id,
+            class: "sb-link sb-cat" + (attiva === "cat/" + g.id ? " on" : ""),
+          },
+          "Panoramica " + g.titolo.toLowerCase(),
+        ),
+        g.tabelle.map(link),
+      ),
     ),
   );
   return h(
@@ -44,9 +56,9 @@ export function Sidebar(attiva) {
       h(
         "a",
         {
-          href: "#dashboard",
+          href: "#home",
           class: "sb-logo",
-          "aria-label": "Vai alla dashboard",
+          "aria-label": "Vai alla panoramica",
         },
         h("span", { class: "marchio" }, "G"),
         h("span", {}, "Gestionale", h("small", {}, "Azienda")),
@@ -61,6 +73,16 @@ export function Sidebar(attiva) {
     h(
       "a",
       {
+        href: "#home",
+        class: "sb-link sb-home" + (attiva === "home" ? " on" : ""),
+        style: "--h:262",
+      },
+      h("span", { class: "tile", html: icona("home", 17) }),
+      "Panoramica",
+    ),
+    h(
+      "a",
+      {
         href: "#dashboard",
         class: "sb-link sb-home" + (attiva === "dashboard" ? " on" : ""),
         style: "--h:262",
@@ -69,6 +91,12 @@ export function Sidebar(attiva) {
       "Dashboard",
     ),
     h("nav", { class: "sb-nav", "aria-label": "Sezioni" }, gruppi),
+    h(
+      "a",
+      { href: "/api/esporta/tutto/xlsx", class: "sb-backup", download: "" },
+      h("span", { html: icona("sheet", 17) }),
+      h("span", {}, "Esporta tutto", h("small", {}, "Excel con tutte le tabelle")),
+    ),
     h(
       "a",
       { href: "/api/backup", class: "sb-backup", download: "" },

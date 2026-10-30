@@ -7,14 +7,17 @@ import { scambiaTema, temaCorrente } from "../../core/store.js";
 // Barra superiore: menu (mobile), percorso, ricerca rapida e cambio tema
 export function Topbar(attiva, apriRicerca) {
   const E = ENTITIES[attiva];
-  const gruppo = E && GRUPPI.find((g) => g.id === E.gruppo);
+  const cat = attiva.startsWith("cat/") ? GRUPPI.find((g) => "cat/" + g.id === attiva) : null;
+  const gruppo = E ? GRUPPI.find((g) => g.id === E.gruppo) : cat;
   const percorso = E
     ? [
         h("span", {}, gruppo.titolo),
         h("span", { class: "sep", html: icona("chevron", 13) }),
         h("strong", {}, E.titolo),
       ]
-    : [h("strong", {}, "Dashboard")];
+    : cat
+      ? [h("span", {}, "Panoramica"), h("span", { class: "sep", html: icona("chevron", 13) }), h("strong", {}, cat.titolo)]
+      : [h("strong", {}, attiva === "dashboard" ? "Dashboard" : "Panoramica")];
   const scuro = temaCorrente() === "scuro";
   const tema = IconButton({
     icon: scuro ? "sun" : "moon",
@@ -31,7 +34,7 @@ export function Topbar(attiva, apriRicerca) {
   });
   return h(
     "header",
-    { class: "topbar", style: `--h:${E ? tonoGruppo(E.gruppo) : 262}` },
+    { class: "topbar", style: `--h:${gruppo ? tonoGruppo(gruppo.id) : 262}` },
     IconButton({
       icon: "menu",
       etichetta: "Apri menu",

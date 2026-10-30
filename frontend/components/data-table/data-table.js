@@ -1,6 +1,6 @@
 import { h } from "../../core/dom.js";
 import { icona } from "../../core/icons.js";
-import { toCsv, scaricaCsv } from "../../core/csv.js";
+import { scarica } from "../../core/download.js";
 import { Button, IconButton } from "../button/button.js";
 import { TableToolbar } from "../table-toolbar/table-toolbar.js";
 import { Pagination } from "../pagination/pagination.js";
@@ -10,7 +10,7 @@ import { DataTableCell } from "../data-table-cell/data-table-cell.js";
 const PER_PAGINA = 25;
 const numerica = (c) => c.fmt === "euro";
 
-// Tabella con ricerca, ordinamento, paginazione, esportazione CSV, modifica ed elimina.
+// Tabella con ricerca, ordinamento, paginazione, esportazione (Excel, PDF, CSV), modifica ed elimina.
 // `el.aggiorna(righe)` sostituisce i dati mantenendo ricerca, ordinamento e pagina.
 export function DataTable({ colonne, righe, nome, onEdit, onDelete, onNew }) {
   let q = "",
@@ -42,7 +42,9 @@ export function DataTable({ colonne, righe, nome, onEdit, onDelete, onNew }) {
   );
   const barra = TableToolbar({
     onCerca: (t) => ((q = t), (pag = 0), disegna()),
-    onEsporta: () => scaricaCsv(nome, toCsv(colonne, filtrate())),
+    // il server esporta tutta la tabella (o solo le righe che contengono il testo cercato)
+    onEsporta: (formato) =>
+      scarica(`esporta/tabella/${nome}/${formato}${q ? "?q=" + encodeURIComponent(q) : ""}`),
   });
 
   const filtrate = () => {

@@ -209,3 +209,7 @@
     overflow: hidden;
   }
 }
+.sb-voci .sb-cat {
+  font-weight: 600;
+  color: var(--ac);
+}

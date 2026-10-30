@@ -12,6 +12,9 @@
 @import url("../components/area-chart/area-chart.css");
 @import url("../components/donut-chart/donut-chart.css");
 @import url("../components/area-grid/area-grid.css");
+@import url("../components/export-menu/export-menu.css");
+@import url("../components/category-card/category-card.css");
+@import url("../components/section-card/section-card.css");
 @import url("../components/table-toolbar/table-toolbar.css");
 @import url("../components/pagination/pagination.css");
 @import url("../components/data-table/data-table.css");
