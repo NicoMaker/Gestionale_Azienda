@@ -61,21 +61,19 @@ for (const t of tabelle) {
     fk
       .map((c, i) => ` LEFT JOIN "${c.da}" j${i} ON j${i}.id = t."${c.k}"`)
       .join("");
-  t.colonne = t.campi
-    .slice(0, 5)
-    .map((c) => ({
-      k: c.da ? c.k.replace(/_id$/, "") : c.k,
-      l: cap(c.k),
-      fmt: c.step
-        ? "euro"
-        : c.opzioni
-          ? "badge"
-          : c.type === "date"
-            ? "date"
-            : c.type === "email"
-              ? "email"
-              : undefined,
-    }));
+  t.colonne = t.campi.slice(0, 5).map((c) => ({
+    k: c.da ? c.k.replace(/_id$/, "") : c.k,
+    l: cap(c.k),
+    fmt: c.step
+      ? "euro"
+      : c.opzioni
+        ? "badge"
+        : c.type === "date"
+          ? "date"
+          : c.type === "email"
+            ? "email"
+            : undefined,
+  }));
 }
 const tabella = (n) => per[n];
 // Schema pubblico per il front (senza SQL)

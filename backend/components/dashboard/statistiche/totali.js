@@ -9,5 +9,11 @@ module.exports = async () => {
       "SELECT COUNT(*) n, COALESCE(SUM(importo),0) tot, COALESCE(SUM(CASE WHEN stato='pagata' THEN importo END),0) inc FROM fatture",
     ),
   ]);
-  return { clienti: c.n, prodotti: p.n, fatture: f.n, fatturato: f.tot, incassato: f.inc };
+  return {
+    clienti: c.n,
+    prodotti: p.n,
+    fatture: f.n,
+    fatturato: f.tot,
+    incassato: f.inc,
+  };
 };

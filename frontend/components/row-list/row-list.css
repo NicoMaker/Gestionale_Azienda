@@ -34,7 +34,9 @@
   flex: 1.2;
   height: 8px;
   border-radius: 99px;
-  background: linear-gradient(var(--ac), var(--ac)) 0 / var(--w) 100% no-repeat, var(--line);
+  background:
+    linear-gradient(var(--ac), var(--ac)) 0 / var(--w) 100% no-repeat,
+    var(--line);
 }
 @media (max-width: 560px) {
   .elenco .badge {

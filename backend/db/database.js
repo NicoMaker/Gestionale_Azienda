@@ -35,7 +35,10 @@ async function datiDiEsempio() {
     ["Colombo Tessuti", "vendite@colombotessuti.it", "031 887766", "Como"],
   ];
   for (const c of clienti)
-    await run("INSERT INTO clienti(nome,email,telefono,citta) VALUES(?,?,?,?)", c);
+    await run(
+      "INSERT INTO clienti(nome,email,telefono,citta) VALUES(?,?,?,?)",
+      c,
+    );
   for (const p of [
     ["Consulenza finanziaria", 150, 999],
     ["Analisi di portafoglio", 480, 999],
@@ -50,14 +53,26 @@ async function datiDiEsempio() {
   const importi = [1200, 3400.5, 560, 980, 2150, 780.9, 4100, 1890, 640, 2750];
   for (let i = 0; i < 30; i++) {
     const mesiFa = 11 - Math.floor(i / 2.6);
-    const d = new Date(oggi.getFullYear(), oggi.getMonth() - mesiFa, 3 + ((i * 7) % 24));
-    const stato = mesiFa > 1 ? (i % 9 === 0 ? "emessa" : "pagata") : ["bozza", "emessa", "pagata"][i % 3];
-    await run("INSERT INTO fatture(cliente_id,data,importo,stato) VALUES(?,?,?,?)", [
-      (i % clienti.length) + 1,
-      d.toISOString().slice(0, 10),
-      importi[(i * 3) % importi.length] + (i % 4) * 110,
-      stato,
-    ]);
+    const d = new Date(
+      oggi.getFullYear(),
+      oggi.getMonth() - mesiFa,
+      3 + ((i * 7) % 24),
+    );
+    const stato =
+      mesiFa > 1
+        ? i % 9 === 0
+          ? "emessa"
+          : "pagata"
+        : ["bozza", "emessa", "pagata"][i % 3];
+    await run(
+      "INSERT INTO fatture(cliente_id,data,importo,stato) VALUES(?,?,?,?)",
+      [
+        (i % clienti.length) + 1,
+        d.toISOString().slice(0, 10),
+        importi[(i * 3) % importi.length] + (i % 4) * 110,
+        stato,
+      ],
+    );
   }
 }
 module.exports = { run, all, get, init };

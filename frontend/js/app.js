@@ -19,18 +19,27 @@ async function mostra() {
   const nome = location.hash.slice(1);
   const attiva = nome in ENTITIES ? nome : "dashboard";
   document.getElementById("sidebar").replaceChildren(Sidebar(attiva));
-  document.getElementById("topbar").replaceChildren(Topbar(attiva, apriRicerca));
+  document
+    .getElementById("topbar")
+    .replaceChildren(Topbar(attiva, apriRicerca));
   document.title = (ENTITIES[attiva]?.titolo || "Dashboard") + " · Gestionale";
   const view = document.getElementById("view");
   view.replaceChildren(Skeleton());
   try {
-    const pagina = attiva === "dashboard" ? await Dashboard() : await EntityPage(attiva);
+    const pagina =
+      attiva === "dashboard" ? await Dashboard() : await EntityPage(attiva);
     if (mio !== giro) return; // nel frattempo l'utente è passato a un'altra sezione
     view.replaceChildren(pagina);
     scrollTo({ top: 0 });
   } catch (e) {
     if (mio !== giro) return;
-    view.replaceChildren(h("p", { class: "sub" }, "Non è stato possibile caricare questa sezione. Riprova tra poco."));
+    view.replaceChildren(
+      h(
+        "p",
+        { class: "sub" },
+        "Non è stato possibile caricare questa sezione. Riprova tra poco.",
+      ),
+    );
     toast(e.message, "err");
   }
 }
@@ -42,5 +51,11 @@ addEventListener("keydown", (e) => {
     apriRicerca();
   }
 });
-document.getElementById("scrim").addEventListener("click", () => document.body.classList.remove("menu-aperto"));
-caricaSchema().then(mostra).catch((e) => toast(e.message, "err"));
+document
+  .getElementById("scrim")
+  .addEventListener("click", () =>
+    document.body.classList.remove("menu-aperto"),
+  );
+caricaSchema()
+  .then(mostra)
+  .catch((e) => toast(e.message, "err"));

@@ -19,7 +19,11 @@ export function Sidebar(attiva) {
   const gruppi = GRUPPI.map((g) =>
     h(
       "details",
-      { class: "sb-gruppo", open: g.id === gAttivo, style: `--h:${tonoGruppo(g.id)}` },
+      {
+        class: "sb-gruppo",
+        open: g.id === gAttivo,
+        style: `--h:${tonoGruppo(g.id)}`,
+      },
       h(
         "summary",
         {},
@@ -39,11 +43,20 @@ export function Sidebar(attiva) {
       { class: "sb-testa" },
       h(
         "a",
-        { href: "#dashboard", class: "sb-logo", "aria-label": "Vai alla dashboard" },
+        {
+          href: "#dashboard",
+          class: "sb-logo",
+          "aria-label": "Vai alla dashboard",
+        },
         h("span", { class: "marchio" }, "G"),
         h("span", {}, "Gestionale", h("small", {}, "Azienda")),
       ),
-      IconButton({ icon: "x", etichetta: "Chiudi menu", class: "btn ghost icon sb-chiudi", onclick: () => document.body.classList.remove("menu-aperto") }),
+      IconButton({
+        icon: "x",
+        etichetta: "Chiudi menu",
+        class: "btn ghost icon sb-chiudi",
+        onclick: () => document.body.classList.remove("menu-aperto"),
+      }),
     ),
     h(
       "a",

@@ -58,7 +58,10 @@
   place-items: center;
   border-radius: 9px;
   color: light-dark(oklch(0.52 0.17 var(--h)), oklch(0.8 0.12 var(--h)));
-  background: light-dark(oklch(0.52 0.17 var(--h) / 0.12), oklch(0.8 0.12 var(--h) / 0.15));
+  background: light-dark(
+    oklch(0.52 0.17 var(--h) / 0.12),
+    oklch(0.8 0.12 var(--h) / 0.15)
+  );
 }
 
 .sb-home,
@@ -128,7 +131,10 @@
 }
 .sb-voci .sb-link.on {
   color: light-dark(oklch(0.48 0.17 var(--h)), oklch(0.84 0.11 var(--h)));
-  background: light-dark(oklch(0.52 0.17 var(--h) / 0.1), oklch(0.8 0.12 var(--h) / 0.14));
+  background: light-dark(
+    oklch(0.52 0.17 var(--h) / 0.1),
+    oklch(0.8 0.12 var(--h) / 0.14)
+  );
   font-weight: 600;
 }
 .sb-voci .sb-link.on::before {

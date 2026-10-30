@@ -7,14 +7,28 @@ import { GRUPPI } from "../../config/entities.js";
 export function apriRicerca() {
   if (document.querySelector(".palette")) return;
   const voci = [
-    { nome: "dashboard", titolo: "Dashboard", gruppo: "Panoramica", g: "dashboard" },
+    {
+      nome: "dashboard",
+      titolo: "Dashboard",
+      gruppo: "Panoramica",
+      g: "dashboard",
+    },
     ...GRUPPI.flatMap((g) =>
-      g.tabelle.map((t) => ({ nome: t.nome, titolo: t.titolo, gruppo: g.titolo, g: g.id })),
+      g.tabelle.map((t) => ({
+        nome: t.nome,
+        titolo: t.titolo,
+        gruppo: g.titolo,
+        g: g.id,
+      })),
     ),
   ];
   let sel = 0;
   let trovate = voci;
-  const lista = h("ul", { class: "pal-lista", role: "listbox", id: "pal-lista" });
+  const lista = h("ul", {
+    class: "pal-lista",
+    role: "listbox",
+    id: "pal-lista",
+  });
   let dlg;
   const input = h("input", {
     class: "pal-input",
@@ -49,13 +63,21 @@ export function apriRicerca() {
               h("span", { class: "g" }, v.gruppo),
             ),
           )
-        : [h("li", { class: "pal-vuoto" }, "Nessuna sezione corrisponde alla ricerca.")]),
+        : [
+            h(
+              "li",
+              { class: "pal-vuoto" },
+              "Nessuna sezione corrisponde alla ricerca.",
+            ),
+          ]),
     );
     lista.querySelector(".on")?.scrollIntoView({ block: "nearest" });
   };
   input.addEventListener("input", () => {
     const q = input.value.trim().toLowerCase();
-    trovate = voci.filter((v) => (v.titolo + " " + v.gruppo + " " + v.nome).toLowerCase().includes(q));
+    trovate = voci.filter((v) =>
+      (v.titolo + " " + v.gruppo + " " + v.nome).toLowerCase().includes(q),
+    );
     sel = 0;
     disegna();
   });
@@ -67,8 +89,17 @@ export function apriRicerca() {
       disegna();
     } else if (e.key === "Enter" && trovate[sel]) vai(trovate[sel]);
   });
-  const testa = h("div", { class: "pal-testa", html: icona("search", 18) }, input, h("kbd", {}, "Esc"));
-  dlg = apriDialog({ classe: "palette", "aria-label": "Ricerca rapida", contenuto: [testa, lista] });
+  const testa = h(
+    "div",
+    { class: "pal-testa", html: icona("search", 18) },
+    input,
+    h("kbd", {}, "Esc"),
+  );
+  dlg = apriDialog({
+    classe: "palette",
+    "aria-label": "Ricerca rapida",
+    contenuto: [testa, lista],
+  });
   disegna();
   input.focus();
 }

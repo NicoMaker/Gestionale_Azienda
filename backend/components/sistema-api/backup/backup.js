@@ -10,7 +10,9 @@ r.get("/", async (req, res, next) => {
     const d = new Date().toISOString().slice(0, 10);
     const tmp = path.join(os.tmpdir(), `gestionale-${Date.now()}.db`);
     await db.run("VACUUM INTO ?", [tmp]);
-    res.download(tmp, `gestionale-backup-${d}.db`, () => fs.unlink(tmp, () => {}));
+    res.download(tmp, `gestionale-backup-${d}.db`, () =>
+      fs.unlink(tmp, () => {}),
+    );
   } catch (e) {
     next(e);
   }

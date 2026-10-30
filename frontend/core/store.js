@@ -1,7 +1,11 @@
 // Preferenze salvate nel browser (tema)
 const KEY = "gestionale:tema";
 const leggi = () => {
-  try { return localStorage.getItem(KEY); } catch { return null; }
+  try {
+    return localStorage.getItem(KEY);
+  } catch {
+    return null;
+  }
 };
 export const temaCorrente = () =>
   document.documentElement.dataset.tema ||
@@ -12,6 +16,8 @@ export function applicaTema(t = leggi()) {
 export function scambiaTema() {
   const t = temaCorrente() === "scuro" ? "chiaro" : "scuro";
   document.documentElement.dataset.tema = t;
-  try { localStorage.setItem(KEY, t); } catch {}
+  try {
+    localStorage.setItem(KEY, t);
+  } catch {}
   return t;
 }

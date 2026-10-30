@@ -10,10 +10,21 @@ export function conferma({ titolo, testo, azione = "Elimina" }) {
       classe: "modale stretta",
       role: "alertdialog",
       contenuto: [
-        h("div", { class: "conferma-testo" }, h("h2", {}, titolo), h("p", {}, testo)),
-        h("div", { class: "mf-az conferma-az" },
+        h(
+          "div",
+          { class: "conferma-testo" },
+          h("h2", {}, titolo),
+          h("p", {}, testo),
+        ),
+        h(
+          "div",
+          { class: "mf-az conferma-az" },
           Button({ testo: "Annulla", onclick: () => dlg.close() }),
-          Button({ testo: azione, variante: "danger", onclick: () => ((esito = true), dlg.close()) }),
+          Button({
+            testo: azione,
+            variante: "danger",
+            onclick: () => ((esito = true), dlg.close()),
+          }),
         ),
       ],
     });

@@ -13,9 +13,15 @@ export async function EntityPage(nome) {
   const E = ENTITIES[nome];
   const fk = E.campi.filter((c) => c.da);
   // righe e opzioni dei menu a tendina (es. il cliente di una fattura) si caricano insieme
-  const [righe, ...liste] = await Promise.all([api.get(nome), ...fk.map((c) => api.get(c.da))]);
+  const [righe, ...liste] = await Promise.all([
+    api.get(nome),
+    ...fk.map((c) => api.get(c.da)),
+  ]);
   const opzioni = Object.fromEntries(
-    fk.map((c, i) => [c.k, liste[i].map((x) => [x.id, x[ENTITIES[c.da].label]])]),
+    fk.map((c, i) => [
+      c.k,
+      liste[i].map((x) => [x.id, x[ENTITIES[c.da].label]]),
+    ]),
   );
 
   const conta = (n) => (n === 1 ? "1 elemento" : `${n} elementi`);
@@ -45,7 +51,12 @@ export async function EntityPage(nome) {
   };
   const elimina = async (r) => {
     const etichetta = r[E.label] ?? "questo elemento";
-    if (!(await conferma({ titolo: "Eliminare l'elemento?", testo: `«${etichetta}» verrà rimosso da ${E.titolo}. L'operazione non si può annullare.` })))
+    if (
+      !(await conferma({
+        titolo: "Eliminare l'elemento?",
+        testo: `«${etichetta}» verrà rimosso da ${E.titolo}. L'operazione non si può annullare.`,
+      }))
+    )
       return;
     try {
       await api.del(`${nome}/${r.id}`);
@@ -56,11 +67,23 @@ export async function EntityPage(nome) {
     }
   };
 
-  const tabella = DataTable({ colonne: E.colonne, righe, nome, onEdit: salva, onDelete: elimina, onNew: () => salva(null) });
+  const tabella = DataTable({
+    colonne: E.colonne,
+    righe,
+    nome,
+    onEdit: salva,
+    onDelete: elimina,
+    onNew: () => salva(null),
+  });
   const testa = PageHeader({
     titolo: E.titolo,
     sottotitolo: conta(righe.length),
-    azioni: Button({ testo: "Aggiungi", icon: "plus", variante: "primary", onclick: () => salva(null) }),
+    azioni: Button({
+      testo: "Aggiungi",
+      icon: "plus",
+      variante: "primary",
+      onclick: () => salva(null),
+    }),
   });
   return h("section", {}, testa, tabella);
 }

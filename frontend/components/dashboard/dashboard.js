@@ -25,31 +25,74 @@ export async function Dashboard() {
 
   const intro = PageHeader({
     titolo: saluto(),
-    azioni: Button({ testo: "Vai alle fatture", icon: "vendite", variante: "primary", href: "#fatture" }),
+    azioni: Button({
+      testo: "Vai alle fatture",
+      icon: "vendite",
+      variante: "primary",
+      href: "#fatture",
+    }),
   });
   intro.sottotitolo.className = "sub frase";
   intro.sottotitolo.replaceChildren(
     ...(s.fatture
-      ? ["In ", h("b", {}, s.fatture + " fatture"), " hai fatturato ", h("b", {}, euroInt(s.fatturato)), ": ", h("b", { class: "ok" }, pct + "%"), " è già stato incassato."]
-      : ["Non ci sono ancora fatture: appena ne registri una, qui compare il quadro della tua attività."]),
+      ? [
+          "In ",
+          h("b", {}, s.fatture + " fatture"),
+          " hai fatturato ",
+          h("b", {}, euroInt(s.fatturato)),
+          ": ",
+          h("b", { class: "ok" }, pct + "%"),
+          " è già stato incassato.",
+        ]
+      : [
+          "Non ci sono ancora fatture: appena ne registri una, qui compare il quadro della tua attività.",
+        ]),
   );
 
-  return h("section", {},
+  return h(
+    "section",
+    {},
     intro,
     StatStrip([
       { etichetta: "Fatturato", valore: euro(s.fatturato) },
       { etichetta: "Incassato", valore: euro(s.incassato) },
-      { etichetta: "Da incassare", valore: euro(daIncassare), nota: "fatture emesse" },
+      {
+        etichetta: "Da incassare",
+        valore: euro(daIncassare),
+        nota: "fatture emesse",
+      },
       { etichetta: "Clienti", valore: s.clienti },
       { etichetta: "Prodotti", valore: s.prodotti },
     ]),
-    h("div", { class: "griglia" },
-      Panel({ titolo: "Andamento degli ultimi mesi" }, s.perMese.length ? AreaChart({ dati: s.perMese }) : vuoto("Nessun dato da mostrare.")),
-      Panel({ titolo: "Fatturato per stato" }, s.perStato.length
-        ? DonutChart({ totale: s.fatture, parti: s.perStato.map((x) => ({ etichetta: etichetta(x.stato), valore: x.tot, tono: tonoStato(x.stato) })) })
-        : vuoto("Nessun dato da mostrare.")),
+    h(
+      "div",
+      { class: "griglia" },
+      Panel(
+        { titolo: "Andamento degli ultimi mesi" },
+        s.perMese.length
+          ? AreaChart({ dati: s.perMese })
+          : vuoto("Nessun dato da mostrare."),
+      ),
+      Panel(
+        { titolo: "Fatturato per stato" },
+        s.perStato.length
+          ? DonutChart({
+              totale: s.fatture,
+              parti: s.perStato.map((x) => ({
+                etichetta: etichetta(x.stato),
+                valore: x.tot,
+                tono: tonoStato(x.stato),
+              })),
+            })
+          : vuoto("Nessun dato da mostrare."),
+      ),
     ),
-    h("div", { class: "griglia due" }, RecentInvoices(s.ultime), TopClients(s.topClienti)),
+    h(
+      "div",
+      { class: "griglia due" },
+      RecentInvoices(s.ultime),
+      TopClients(s.topClienti),
+    ),
     AreaGrid(GRUPPI),
   );
 }

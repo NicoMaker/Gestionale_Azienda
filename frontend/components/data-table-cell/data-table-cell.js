@@ -7,7 +7,12 @@ export function DataTableCell(c, r) {
   if (v == null || v === "") return h("span", { class: "nd" }, "–");
   if (c.fmt === "euro") return euro(v);
   if (c.fmt === "date") return data(v);
-  if (c.fmt === "email") return h("a", { href: "mailto:" + v, onclick: (e) => e.stopPropagation() }, v);
+  if (c.fmt === "email")
+    return h(
+      "a",
+      { href: "mailto:" + v, onclick: (e) => e.stopPropagation() },
+      v,
+    );
   if (c.fmt === "badge") return Badge(v);
   return v;
 }

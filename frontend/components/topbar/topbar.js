@@ -9,7 +9,11 @@ export function Topbar(attiva, apriRicerca) {
   const E = ENTITIES[attiva];
   const gruppo = E && GRUPPI.find((g) => g.id === E.gruppo);
   const percorso = E
-    ? [h("span", {}, gruppo.titolo), h("span", { class: "sep", html: icona("chevron", 13) }), h("strong", {}, E.titolo)]
+    ? [
+        h("span", {}, gruppo.titolo),
+        h("span", { class: "sep", html: icona("chevron", 13) }),
+        h("strong", {}, E.titolo),
+      ]
     : [h("strong", {}, "Dashboard")];
   const scuro = temaCorrente() === "scuro";
   const tema = IconButton({
@@ -18,21 +22,38 @@ export function Topbar(attiva, apriRicerca) {
     onclick: () => {
       scambiaTema();
       const ora = temaCorrente() === "scuro";
-      tema.setAttribute("aria-label", ora ? "Passa al tema chiaro" : "Passa al tema scuro");
+      tema.setAttribute(
+        "aria-label",
+        ora ? "Passa al tema chiaro" : "Passa al tema scuro",
+      );
       tema.innerHTML = icona(ora ? "sun" : "moon");
     },
   });
   return h(
     "header",
     { class: "topbar", style: `--h:${E ? tonoGruppo(E.gruppo) : 262}` },
-    IconButton({ icon: "menu", etichetta: "Apri menu", class: "btn ghost icon burger", onclick: () => document.body.classList.add("menu-aperto") }),
-    h("nav", { class: "briciole", "aria-label": "Percorso" }, h("i", { class: "punto" }), percorso),
+    IconButton({
+      icon: "menu",
+      etichetta: "Apri menu",
+      class: "btn ghost icon burger",
+      onclick: () => document.body.classList.add("menu-aperto"),
+    }),
+    h(
+      "nav",
+      { class: "briciole", "aria-label": "Percorso" },
+      h("i", { class: "punto" }),
+      percorso,
+    ),
     h(
       "button",
       { class: "cerca-rapida", type: "button", onclick: apriRicerca },
       h("span", { html: icona("search", 16) }),
       h("span", { class: "testo" }, "Vai a una sezione"),
-      h("kbd", {}, /Mac|iPhone|iPad/.test(navigator.platform) ? "⌘K" : "Ctrl K"),
+      h(
+        "kbd",
+        {},
+        /Mac|iPhone|iPad/.test(navigator.platform) ? "⌘K" : "Ctrl K",
+      ),
     ),
     tema,
   );
