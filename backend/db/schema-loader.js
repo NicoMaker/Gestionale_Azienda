@@ -66,7 +66,15 @@ for (const t of tabelle) {
     .map((c) => ({
       k: c.da ? c.k.replace(/_id$/, "") : c.k,
       l: cap(c.k),
-      fmt: c.step ? "euro" : c.k === "stato" ? "badge" : undefined,
+      fmt: c.step
+        ? "euro"
+        : c.opzioni
+          ? "badge"
+          : c.type === "date"
+            ? "date"
+            : c.type === "email"
+              ? "email"
+              : undefined,
     }));
 }
 const tabella = (n) => per[n];

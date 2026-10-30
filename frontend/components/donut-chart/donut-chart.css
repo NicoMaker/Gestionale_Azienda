@@ -1,0 +1,66 @@
+.ciambella {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+.ciambella ul {
+  flex: 1;
+  min-width: 160px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+.ciambella li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-transform: capitalize;
+}
+.ciambella li span {
+  flex: 1;
+}
+.pt {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: var(--mu);
+}
+.pt.ok {
+  background: var(--ok);
+}
+.pt.warn {
+  background: var(--warn);
+}
+.pt.dn {
+  background: var(--dn);
+}
+.d-fondo {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 16;
+}
+.d-arco {
+  fill: none;
+  stroke: var(--mu);
+  stroke-width: 16;
+}
+.d-arco.ok {
+  stroke: var(--ok);
+}
+.d-arco.warn {
+  stroke: var(--warn);
+}
+.d-arco.dn {
+  stroke: var(--dn);
+}
+.d-num {
+  fill: var(--ink);
+  font: 650 26px var(--font-display);
+}
+.d-lab {
+  fill: var(--mu);
+  font: 500 11px var(--font);
+}

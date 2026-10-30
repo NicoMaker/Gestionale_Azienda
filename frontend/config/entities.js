@@ -6,10 +6,5 @@ export async function caricaSchema() {
   GRUPPI = await api.get("schema");
   for (const g of GRUPPI)
     for (const t of g.tabelle)
-      ENTITIES[t.nome] = {
-        ...t,
-        gruppo: g.id,
-        icona: g.icona,
-        singolare: t.titolo.toLowerCase(),
-      };
+      ENTITIES[t.nome] = { ...t, gruppo: g.id, icona: g.icona };
 }

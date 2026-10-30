@@ -1,32 +1,35 @@
-/* Colori e misure: tema finanza (navy · smeraldo · oro), chiaro e scuro automatico */
+/* Design token: tema chiaro e scuro (automatico o scelto dall'utente) */
 :root {
-  --bg: #f3f6f4;
-  --card: #fff;
-  --tx: #0f1f2e;
-  --mu: #5d7080;
-  --bd: #dbe4e1;
-  --ac: #0f766e;
-  --navy: #0b2a4a;
-  --gold: #c9a227;
-  --up: #059669;
-  --dn: #e11d48;
-  --grad: linear-gradient(135deg, #0b2a4a 0%, #0f766e 70%, #10b981 130%);
-  --r: 18px;
-  --sh:
-    0 1px 2px rgba(11, 42, 74, 0.05), 0 16px 36px -22px rgba(11, 42, 74, 0.4);
-  --font: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light dark;
+  --bg: light-dark(#f4f5f9, #0b0d16);
+  --surface: light-dark(#ffffff, #131624);
+  --surface-2: light-dark(#f8f9fc, #181c2d);
+  --ink: light-dark(#14172b, #e9ebf5);
+  --mu: light-dark(#636a84, #8b92ae);
+  --line: light-dark(#e2e4ee, #242941);
+  --line-strong: light-dark(#cdd0e0, #343a58);
+  --ac: light-dark(#3447e0, #8e9bff);
+  --ac-ink: light-dark(#ffffff, #0b0d16);
+  --ac-soft: light-dark(#eceeff, #1e2448);
+  --ok: light-dark(#0b8a5c, #4fd6a2);
+  --warn: light-dark(#a95b05, #f3b45e);
+  --dn: light-dark(#cf2646, #ff7d95);
+
+  --r-lg: 16px;
+  --r-md: 10px;
+  --r-sm: 7px;
+  --pop: light-dark(
+    0 18px 50px -14px rgba(20, 23, 43, 0.3),
+    0 18px 50px -14px rgba(0, 0, 0, 0.8)
+  );
+  --font: "Geist", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Bricolage Grotesque", "Geist", system-ui, sans-serif;
+  --side: 276px;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #08141c;
-    --card: #0e212c;
-    --tx: #e6f1ee;
-    --mu: #8fa9b0;
-    --bd: #1c3441;
-    --ac: #2dd4bf;
-    --gold: #e5c04b;
-    --up: #34d399;
-    --dn: #fb7185;
-    --sh: 0 20px 44px -24px rgba(0, 0, 0, 0.8);
-  }
+:root[data-tema="chiaro"] {
+  color-scheme: light;
+}
+:root[data-tema="scuro"] {
+  color-scheme: dark;
 }

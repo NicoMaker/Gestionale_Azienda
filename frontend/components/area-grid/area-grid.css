@@ -1,0 +1,31 @@
+.aree h2 {
+  margin: 10px 0 14px;
+}
+.aree-griglia {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 10px;
+}
+.area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+.area:hover {
+  border-color: light-dark(oklch(0.6 0.15 var(--h)), oklch(0.75 0.12 var(--h)));
+}
+.area b {
+  display: block;
+  font-weight: 600;
+}
+.area small {
+  color: var(--mu);
+  font-size: 0.8rem;
+}

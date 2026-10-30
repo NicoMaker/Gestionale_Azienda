@@ -5,10 +5,10 @@ const { tabelle } = require("../backend/db/schema-loader");
 const G = require("../schema/tabelle");
 const root = path.join(__dirname, "..");
 for (const t of tabelle) {
-  const dir = path.join(root, "back/components", t.gruppo, t.nome);
+  const dir = path.join(root, "backend/components", t.gruppo, t.nome);
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(
-    path.join(dir, t.nome + ".routes.js"),
+    path.join(dir, t.nome + ".js"),
     `// Componente «${t.titolo}»: API REST /api/${t.nome}\nmodule.exports = require("../../crud")(require("../../../db/schema-loader").tabella("${t.nome}"));\n`,
   );
 }

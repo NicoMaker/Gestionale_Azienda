@@ -1,0 +1,28 @@
+.dt-barra {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.dt-cerca {
+  position: relative;
+  flex: 1 1 260px;
+  max-width: 380px;
+}
+.dt-cerca span {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  translate: 0 -50%;
+  color: var(--mu);
+  pointer-events: none;
+}
+.dt-cerca .campo {
+  padding-left: 36px;
+}
+.dt-conta {
+  margin-right: auto;
+  color: var(--mu);
+  font-size: 0.88rem;
+}

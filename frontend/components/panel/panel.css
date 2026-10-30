@@ -1,0 +1,26 @@
+.panel {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+}
+.panel-testa {
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.panel-testa a {
+  font-size: 0.86rem;
+  font-weight: 550;
+  text-decoration: none;
+}
+.panel-testa a:hover {
+  text-decoration: underline;
+}
+.panel > h2 {
+  margin-bottom: 18px;
+}

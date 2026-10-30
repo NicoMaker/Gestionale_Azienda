@@ -1,0 +1,12 @@
+.testa {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 12px 0 24px;
+}
+.sub {
+  margin-top: 6px;
+  color: var(--mu);
+}

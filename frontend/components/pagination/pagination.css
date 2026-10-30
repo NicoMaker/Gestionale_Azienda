@@ -1,0 +1,12 @@
+.dt-piede {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+  color: var(--mu);
+  font-size: 0.86rem;
+}
+.dt-piede div {
+  display: flex;
+  gap: 8px;
+}

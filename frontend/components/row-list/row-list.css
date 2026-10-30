@@ -1,0 +1,43 @@
+.elenco {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.elenco li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 11px 0;
+  border-top: 1px solid var(--line);
+}
+.elenco li:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.elenco li > div {
+  flex: 1;
+  min-width: 0;
+}
+.elenco b {
+  font-weight: 600;
+}
+.elenco small {
+  display: block;
+  color: var(--mu);
+  font-size: 0.8rem;
+}
+.elenco .imp {
+  min-width: 90px;
+  text-align: right;
+}
+.classifica i {
+  flex: 1.2;
+  height: 8px;
+  border-radius: 99px;
+  background: linear-gradient(var(--ac), var(--ac)) 0 / var(--w) 100% no-repeat, var(--line);
+}
+@media (max-width: 560px) {
+  .elenco .badge {
+    display: none;
+  }
+}

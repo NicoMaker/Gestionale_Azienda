@@ -1,66 +1,38 @@
 import { h } from "../../core/dom.js";
+import { Button, IconButton } from "../button/button.js";
+import { Field } from "../field/field.js";
+import { apriDialog } from "../dialog/dialog.js";
 
 // Finestra con modulo generato dai campi; restituisce una Promise con i valori (o null se annullato)
-export function apriForm({ titolo, campi, valori = {}, opzioni = {} }) {
+export function apriForm({ titolo, sottotitolo, azione = "Salva", campi, valori = {}, opzioni = {} }) {
   return new Promise((ok) => {
-    const chiudi = (v) => {
-      ov.remove();
-      ok(v);
-    };
-    const input = (c) => {
-      const val = valori[c.k] ?? "";
-      if (c.type === "select") {
-        const op = c.opzioni
-          ? c.opzioni.map((o) => [o, o])
-          : opzioni[c.k] || [];
-        return h(
-          "select",
-          { name: c.k, required: c.req },
-          op.map(([v, l]) =>
-            h("option", { value: v, selected: String(v) === String(val) }, l),
-          ),
-        );
-      }
-      return h("input", {
-        name: c.k,
-        type: c.type || "text",
-        step: c.step,
-        required: c.req,
-        value: val,
-      });
-    };
-    const form = h(
-      "form",
-      {
-        class: "mf",
-        onsubmit: (e) => {
-          e.preventDefault();
-          const d = Object.fromEntries(new FormData(form));
-          campi
-            .filter((c) => c.type === "number")
-            .forEach((c) => (d[c.k] = Number(d[c.k] || 0)));
-          chiudi(d);
-        },
+    let esito = null;
+    const form = h("form", {
+      method: "dialog",
+      class: "mf",
+      onsubmit: (e) => {
+        e.preventDefault();
+        const d = Object.fromEntries(new FormData(form));
+        for (const c of campi) {
+          if (d[c.k] === "") d[c.k] = null;
+          else if (c.type === "number") d[c.k] = Number(d[c.k]);
+        }
+        esito = d;
+        dlg.close();
       },
-      h("h2", {}, titolo),
-      campi.map((c) => h("label", {}, c.l, input(c))),
-      h(
-        "div",
-        { class: "mf-az" },
-        h(
-          "button",
-          { type: "button", class: "btn", onclick: () => chiudi(null) },
-          "Annulla",
-        ),
-        h("button", { class: "btn primary" }, "Salva"),
+    },
+      h("header", { class: "mf-testa" },
+        h("div", {}, h("h2", {}, titolo), sottotitolo && h("p", {}, sottotitolo)),
+        IconButton({ icon: "x", etichetta: "Chiudi", onclick: () => dlg.close() }),
+      ),
+      h("div", { class: "mf-griglia" }, campi.map((c) => Field(c, { valore: valori[c.k] ?? "", opzioni: opzioni[c.k] || [] }))),
+      h("footer", { class: "mf-az" },
+        Button({ testo: "Annulla", onclick: () => dlg.close() }),
+        Button({ testo: azione, variante: "primary", tipo: "submit" }),
       ),
     );
-    const ov = h(
-      "div",
-      { class: "ov", onclick: (e) => e.target === ov && chiudi(null) },
-      form,
-    );
-    document.body.append(ov);
+    const dlg = apriDialog({ contenuto: form });
+    dlg.addEventListener("close", () => ok(esito));
     form.querySelector("input,select")?.focus();
   });
 }

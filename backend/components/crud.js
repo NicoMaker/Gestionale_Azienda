@@ -1,19 +1,25 @@
 // Fabbrica di router CRUD: riceve la definizione di una tabella (da schema-loader)
 const { Router } = require("express");
 const db = require("../db/database");
+
 const wrap = (fn) => (req, res, next) => fn(req, res).catch(next);
+const nonTrovato = () =>
+  Object.assign(new Error("Elemento non trovato"), { status: 404 });
 
 module.exports = (t) => {
   const r = Router();
-  const nomi = t.campi.map((c) => c.k),
-    q = (s) => `"${s}"`;
-  const vals = (b) => nomi.map((f) => (b[f] === "" ? null : (b[f] ?? null)));
+  const nomi = t.campi.map((c) => c.k);
+  const q = (s) => `"${s}"`;
+  const vals = (b = {}) =>
+    nomi.map((f) => (b[f] === "" ? null : (b[f] ?? null)));
+
   r.get(
     "/",
     wrap(async (req, res) =>
       res.json(await db.all(`${t.select} ORDER BY 1 DESC`)),
     ),
   );
+
   r.post(
     "/",
     wrap(async (req, res) => {
@@ -24,20 +30,26 @@ module.exports = (t) => {
       res.status(201).json({ id: x.id });
     }),
   );
+
   r.put(
     "/:id",
     wrap(async (req, res) => {
-      await db.run(
+      const x = await db.run(
         `UPDATE ${q(t.nome)} SET ${nomi.map((f) => q(f) + "=?")} WHERE id=?`,
         [...vals(req.body), req.params.id],
       );
+      if (!x.changes) throw nonTrovato();
       res.json({ ok: true });
     }),
   );
+
   r.delete(
     "/:id",
     wrap(async (req, res) => {
-      await db.run(`DELETE FROM ${q(t.nome)} WHERE id=?`, [req.params.id]);
+      const x = await db.run(`DELETE FROM ${q(t.nome)} WHERE id=?`, [
+        req.params.id,
+      ]);
+      if (!x.changes) throw nonTrovato();
       res.json({ ok: true });
     }),
   );

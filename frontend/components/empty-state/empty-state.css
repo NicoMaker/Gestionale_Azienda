@@ -1,0 +1,25 @@
+.vuoto {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 56px 16px;
+  text-align: center;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--r-lg);
+}
+.vuoto[hidden] {
+  display: none;
+}
+.vuoto p {
+  color: var(--mu);
+  margin-bottom: 8px;
+}
+.vuoto-ic {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: var(--ac-soft);
+  color: var(--ac);
+}

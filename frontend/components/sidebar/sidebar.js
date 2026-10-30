@@ -1,7 +1,9 @@
 import { h } from "../../core/dom.js";
+import { icona, tonoGruppo } from "../../core/icons.js";
+import { IconButton } from "../button/button.js";
 import { GRUPPI, ENTITIES } from "../../config/entities.js";
 
-// Menu laterale: Dashboard, ricerca tabelle, 10 gruppi a tendina con le 100 sezioni, backup
+// Menu laterale: Dashboard, 10 gruppi a tendina con le 100 sezioni, backup
 export function Sidebar(attiva) {
   const gAttivo = ENTITIES[attiva]?.gruppo;
   const link = (t) =>
@@ -9,63 +11,56 @@ export function Sidebar(attiva) {
       "a",
       {
         href: "#" + t.nome,
-        class: "sb-link sm" + (t.nome === attiva ? " on" : ""),
-        "data-n": t.titolo.toLowerCase(),
+        class: "sb-link" + (t.nome === attiva ? " on" : ""),
+        "aria-current": t.nome === attiva ? "page" : null,
       },
       t.titolo,
     );
-  const sezioni = GRUPPI.map((g) =>
+  const gruppi = GRUPPI.map((g) =>
     h(
       "details",
-      { open: g.id === gAttivo },
+      { class: "sb-gruppo", open: g.id === gAttivo, style: `--h:${tonoGruppo(g.id)}` },
       h(
         "summary",
         {},
-        h("span", {}, g.icona),
-        g.titolo,
+        h("span", { class: "tile", html: icona(g.id, 17) }),
+        h("span", { class: "nome" }, g.titolo),
         h("em", {}, g.tabelle.length),
+        h("span", { class: "freccia", html: icona("chevron", 14) }),
       ),
-      g.tabelle.map(link),
+      h("div", { class: "sb-voci" }, g.tabelle.map(link)),
     ),
   );
-  const cerca = h("input", {
-    class: "sb-cerca",
-    type: "search",
-    placeholder: "Cerca tabella…",
-    oninput: (e) => {
-      const q = e.target.value.toLowerCase();
-      sezioni.forEach((d) => {
-        let n = 0;
-        d.querySelectorAll("a").forEach((a) => {
-          const s = a.dataset.n.includes(q);
-          a.hidden = !s;
-          n += s;
-        });
-        d.hidden = !n;
-        if (q) d.open = true;
-      });
-    },
-  });
   return h(
     "div",
     { class: "sb" },
-    h("div", { class: "sb-logo" }, h("span", {}, "Σ"), "Gestionale"),
+    h(
+      "div",
+      { class: "sb-testa" },
+      h(
+        "a",
+        { href: "#dashboard", class: "sb-logo", "aria-label": "Vai alla dashboard" },
+        h("span", { class: "marchio" }, "G"),
+        h("span", {}, "Gestionale", h("small", {}, "Azienda")),
+      ),
+      IconButton({ icon: "x", etichetta: "Chiudi menu", class: "btn ghost icon sb-chiudi", onclick: () => document.body.classList.remove("menu-aperto") }),
+    ),
     h(
       "a",
       {
         href: "#dashboard",
-        class: "sb-link" + (attiva === "dashboard" ? " on" : ""),
+        class: "sb-link sb-home" + (attiva === "dashboard" ? " on" : ""),
+        style: "--h:262",
       },
-      h("span", {}, "📊"),
+      h("span", { class: "tile", html: icona("dashboard", 17) }),
       "Dashboard",
     ),
-    cerca,
-    h("nav", {}, sezioni),
+    h("nav", { class: "sb-nav", "aria-label": "Sezioni" }, gruppi),
     h(
       "a",
-      { href: "/api/backup", class: "sb-link sb-backup", download: "" },
-      h("span", {}, "💾"),
-      "Scarica backup",
+      { href: "/api/backup", class: "sb-backup", download: "" },
+      h("span", { html: icona("download", 17) }),
+      h("span", {}, "Scarica backup", h("small", {}, "Copia del database")),
     ),
   );
 }
