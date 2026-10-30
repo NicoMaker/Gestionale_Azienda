@@ -3,9 +3,14 @@ const db = require("../../../db/database");
 const { tabelle, tabella } = require("../../../db/schema-loader");
 const GRUPPI = require("../../../../schema/tabelle");
 
-
 const tipoColonna = (c) =>
-  c.step ? "euro" : c.type === "date" ? "data" : c.type === "number" ? "numero" : "testo";
+  c.step
+    ? "euro"
+    : c.type === "date"
+      ? "data"
+      : c.type === "number"
+        ? "numero"
+        : "testo";
 
 // Colonne: ID + tutti i campi (le chiavi esterne mostrano il nome del record collegato)
 const colonne = (t) => [
@@ -19,9 +24,13 @@ const colonne = (t) => [
 
 // Ricerca testuale identica a quella della tabella a schermo
 const filtra = (righe, q) => {
-  const t = String(q || "").trim().toLowerCase();
+  const t = String(q || "")
+    .trim()
+    .toLowerCase();
   return t
-    ? righe.filter((r) => JSON.stringify(Object.values(r)).toLowerCase().includes(t))
+    ? righe.filter((r) =>
+        JSON.stringify(Object.values(r)).toLowerCase().includes(t),
+      )
     : righe;
 };
 
@@ -53,7 +62,8 @@ const perGruppo = async (id) => {
   if (!g) return null;
   const usati = new Set(["indice"]);
   const fogli = [];
-  for (const t of tabelle.filter((x) => x.gruppo === id)) fogli.push(await foglio(t, "", usati));
+  for (const t of tabelle.filter((x) => x.gruppo === id))
+    fogli.push(await foglio(t, "", usati));
   return { nome: g.titolo, fogli };
 };
 

@@ -7,7 +7,9 @@ import { scambiaTema, temaCorrente } from "../../core/store.js";
 // Barra superiore: menu (mobile), percorso, ricerca rapida e cambio tema
 export function Topbar(attiva, apriRicerca) {
   const E = ENTITIES[attiva];
-  const cat = attiva.startsWith("cat/") ? GRUPPI.find((g) => "cat/" + g.id === attiva) : null;
+  const cat = attiva.startsWith("cat/")
+    ? GRUPPI.find((g) => "cat/" + g.id === attiva)
+    : null;
   const gruppo = E ? GRUPPI.find((g) => g.id === E.gruppo) : cat;
   const percorso = E
     ? [
@@ -16,7 +18,11 @@ export function Topbar(attiva, apriRicerca) {
         h("strong", {}, E.titolo),
       ]
     : cat
-      ? [h("span", {}, "Panoramica"), h("span", { class: "sep", html: icona("chevron", 13) }), h("strong", {}, cat.titolo)]
+      ? [
+          h("span", {}, "Panoramica"),
+          h("span", { class: "sep", html: icona("chevron", 13) }),
+          h("strong", {}, cat.titolo),
+        ]
       : [h("strong", {}, attiva === "dashboard" ? "Dashboard" : "Panoramica")];
   const scuro = temaCorrente() === "scuro";
   const tema = IconButton({

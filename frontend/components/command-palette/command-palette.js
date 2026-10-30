@@ -7,7 +7,12 @@ import { GRUPPI } from "../../config/entities.js";
 export function apriRicerca() {
   if (document.querySelector(".palette")) return;
   const voci = [
-    { nome: "home", titolo: "Panoramica", gruppo: "Pagina generale", g: "home" },
+    {
+      nome: "home",
+      titolo: "Panoramica",
+      gruppo: "Pagina generale",
+      g: "home",
+    },
     {
       nome: "dashboard",
       titolo: "Dashboard",

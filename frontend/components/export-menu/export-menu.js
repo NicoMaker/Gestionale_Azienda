@@ -3,7 +3,12 @@ import { icona } from "../../core/icons.js";
 
 // Pulsante «Esporta» con menu a comparsa. `voci`: [{ testo, nota, icon, onclick }]
 // Con `soloIcona` mostra solo l'icona di download (per le schede).
-export function ExportMenu({ voci, testo = "Esporta", soloIcona = false, variante = "" }) {
+export function ExportMenu({
+  voci,
+  testo = "Esporta",
+  soloIcona = false,
+  variante = "",
+}) {
   const lista = h(
     "div",
     { class: "xm-lista", role: "menu", hidden: true },
@@ -66,9 +71,13 @@ export function ExportMenu({ voci, testo = "Esporta", soloIcona = false, variant
 
 // Voci standard di esportazione: ricevono una funzione che scarica il formato scelto
 export const vociFormati = (scarica, formati = ["xlsx", "pdf", "csv"]) =>
-  formati.map((f) => ({
-    xlsx: { testo: "Excel", nota: "Foglio .xlsx", icon: "sheet" },
-    pdf: { testo: "PDF", nota: "Documento stampabile", icon: "pdf" },
-    csv: { testo: "CSV", nota: "Testo separato da «;»", icon: "csv" },
-  }[f]))
+  formati
+    .map(
+      (f) =>
+        ({
+          xlsx: { testo: "Excel", nota: "Foglio .xlsx", icon: "sheet" },
+          pdf: { testo: "PDF", nota: "Documento stampabile", icon: "pdf" },
+          csv: { testo: "CSV", nota: "Testo separato da «;»", icon: "csv" },
+        })[f],
+    )
     .map((v, i) => ({ ...v, onclick: () => scarica(formati[i]) }));

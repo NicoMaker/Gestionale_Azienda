@@ -12,7 +12,12 @@ export const SectionCard = (s) =>
       { class: "sez-link", href: "#" + s.nome },
       h("b", {}, s.titolo),
       h("span", { class: "sez-n" }, s.record.toLocaleString("it-IT")),
-      h("small", {}, `${s.campi} campi` + (s.collegamenti ? ` · ${s.collegamenti} collegamenti` : "")),
+      h(
+        "small",
+        {},
+        `${s.campi} campi` +
+          (s.collegamenti ? ` · ${s.collegamenti} collegamenti` : ""),
+      ),
     ),
     ExportMenu({
       testo: `Esporta ${s.titolo}`,

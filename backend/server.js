@@ -22,7 +22,10 @@ for (const t of tabelle)
 app.use("/api/schema", require("./components/sistema-api/schema/schema"));
 app.use("/api/backup", require("./components/sistema-api/backup/backup"));
 app.use("/api/esporta", require("./components/sistema-api/esporta/esporta"));
-app.use("/api/riepilogo", require("./components/sistema-api/riepilogo/riepilogo"));
+app.use(
+  "/api/riepilogo",
+  require("./components/sistema-api/riepilogo/riepilogo"),
+);
 app.use("/api/dashboard", require("./components/dashboard/dashboard"));
 app.use("/api", (req, res) =>
   res.status(404).json({ errore: "Risorsa non trovata" }),

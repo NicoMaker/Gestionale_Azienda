@@ -5,7 +5,9 @@ import { GRUPPI, ENTITIES } from "../../config/entities.js";
 
 // Menu laterale: Panoramica, Dashboard, 10 categorie a tendina con le 100 sezioni, esportazione e backup
 export function Sidebar(attiva) {
-  const gAttivo = ENTITIES[attiva]?.gruppo ?? (attiva.startsWith("cat/") ? attiva.slice(4) : null);
+  const gAttivo =
+    ENTITIES[attiva]?.gruppo ??
+    (attiva.startsWith("cat/") ? attiva.slice(4) : null);
   const link = (t) =>
     h(
       "a",
@@ -95,7 +97,12 @@ export function Sidebar(attiva) {
       "a",
       { href: "/api/esporta/tutto/xlsx", class: "sb-backup", download: "" },
       h("span", { html: icona("sheet", 17) }),
-      h("span", {}, "Esporta tutto", h("small", {}, "Excel con tutte le tabelle")),
+      h(
+        "span",
+        {},
+        "Esporta tutto",
+        h("small", {}, "Excel con tutte le tabelle"),
+      ),
     ),
     h(
       "a",

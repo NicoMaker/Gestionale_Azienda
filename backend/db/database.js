@@ -25,6 +25,8 @@ async function init() {
 // Dati dimostrativi: compaiono solo al primo avvio, a database vuoto (vedi ./seed)
 const datiDiEsempio = async () => {
   const righe = await require("./seed").popola({ run });
-  console.log(`Dati di esempio caricati: ${righe} righe in ${tabelle.length} tabelle`);
+  console.log(
+    `Dati di esempio caricati: ${righe} righe in ${tabelle.length} tabelle`,
+  );
 };
 module.exports = { run, all, get, init };

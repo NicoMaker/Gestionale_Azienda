@@ -44,7 +44,9 @@ export function DataTable({ colonne, righe, nome, onEdit, onDelete, onNew }) {
     onCerca: (t) => ((q = t), (pag = 0), disegna()),
     // il server esporta tutta la tabella (o solo le righe che contengono il testo cercato)
     onEsporta: (formato) =>
-      scarica(`esporta/tabella/${nome}/${formato}${q ? "?q=" + encodeURIComponent(q) : ""}`),
+      scarica(
+        `esporta/tabella/${nome}/${formato}${q ? "?q=" + encodeURIComponent(q) : ""}`,
+      ),
   });
 
   const filtrate = () => {

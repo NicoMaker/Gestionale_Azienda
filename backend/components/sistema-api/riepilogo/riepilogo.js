@@ -9,7 +9,10 @@ r.get("/", async (req, res, next) => {
   try {
     const conta = Object.fromEntries(
       await Promise.all(
-        tabelle.map(async (t) => [t.nome, (await db.get(`SELECT COUNT(*) n FROM "${t.nome}"`)).n]),
+        tabelle.map(async (t) => [
+          t.nome,
+          (await db.get(`SELECT COUNT(*) n FROM "${t.nome}"`)).n,
+        ]),
       ),
     );
     res.json(
