@@ -6,17 +6,28 @@ import { TableToolbar } from "../table-toolbar/table-toolbar.js";
 import { Pagination } from "../pagination/pagination.js";
 import { EmptyState } from "../empty-state/empty-state.js";
 import { DataTableCell } from "../data-table-cell/data-table-cell.js";
+import { SelectionBar } from "../selection-bar/selection-bar.js";
 
 const PER_PAGINA = 25;
 const numerica = (c) => c.fmt === "euro";
 
 // Tabella con ricerca, ordinamento, paginazione, esportazione (Excel, PDF, CSV), modifica ed elimina.
 // `el.aggiorna(righe)` sostituisce i dati mantenendo ricerca, ordinamento e pagina.
-export function DataTable({ colonne, righe, nome, onEdit, onDelete, onNew }) {
+// Con `onDeleteMany(ids, tutti)` compaiono le caselle di selezione e la barra «Elimina» in basso e il pulsante «Elimina tutti».
+export function DataTable({
+  colonne,
+  righe,
+  nome,
+  onEdit,
+  onDelete,
+  onDeleteMany,
+  onNew,
+}) {
   let q = "",
     ord = null,
     pag = 0,
     tutte = righe;
+  const sel = new Set(); // id selezionati (restano anche cambiando pagina)
   const body = h("tbody");
   const tw = h("div", { class: "tw" });
   const vuoto = h("div", { hidden: true });
@@ -49,6 +60,44 @@ export function DataTable({ colonne, righe, nome, onEdit, onDelete, onNew }) {
       ),
   });
 
+  const deseleziona = () => (sel.clear(), disegna());
+  const barraSel = SelectionBar({
+    onElimina: () => onDeleteMany([...sel], false),
+    onAnnulla: deseleziona,
+  });
+  // Esc toglie la selezione (il listener si rimuove da solo quando la tabella esce dalla pagina)
+  const suEsc = (e) => {
+    if (!el.isConnected) return document.removeEventListener("keydown", suEsc);
+    if (e.key === "Escape" && sel.size && !document.querySelector("dialog[open]"))
+      deseleziona();
+  };
+  document.addEventListener("keydown", suEsc);
+  const btnTutti = Button({
+    testo: "Elimina tutti",
+    icon: "trash",
+    variante: "ghost rosso dt-tutti",
+    onclick: () => {
+      const f = filtrate();
+      // senza ricerca attiva si elimina l'intera tabella, altrimenti solo i risultati trovati
+      onDeleteMany(
+        f.map((r) => r.id),
+        !q,
+      );
+    },
+  });
+  if (onDeleteMany) barra.querySelector(".dt-conta").after(btnTutti);
+
+  const chkTutti = h("input", {
+    type: "checkbox",
+    class: "dt-chk",
+    "aria-label": "Seleziona tutti gli elementi",
+    onchange: (e) => {
+      const f = filtrate();
+      f.forEach((r) => (e.target.checked ? sel.add(r.id) : sel.delete(r.id)));
+      disegna();
+    },
+  });
+
   const filtrate = () => {
     const t = q.toLowerCase();
     const f = t
@@ -75,7 +124,22 @@ export function DataTable({ colonne, righe, nome, onEdit, onDelete, onNew }) {
   const riga = (r) =>
     h(
       "tr",
-      { onclick: () => onEdit(r) },
+      { onclick: () => onEdit(r), class: sel.has(r.id) ? "selezionata" : "" },
+      onDeleteMany &&
+        h(
+          "td",
+          { class: "sel", onclick: (e) => e.stopPropagation() },
+          h("input", {
+            type: "checkbox",
+            class: "dt-chk",
+            "aria-label": "Seleziona elemento",
+            checked: sel.has(r.id),
+            onchange: (e) => {
+              e.target.checked ? sel.add(r.id) : sel.delete(r.id);
+              disegna();
+            },
+          }),
+        ),
       colonne.map((c) =>
         h(
           "td",
@@ -119,10 +183,20 @@ export function DataTable({ colonne, righe, nome, onEdit, onDelete, onNew }) {
         ? icona(ord.dir === 1 ? "up" : "down", 13)
         : "";
     });
+    // la selezione contiene solo righe ancora esistenti
+    const esistenti = new Set(tutte.map((r) => r.id));
+    for (const id of sel) if (!esistenti.has(id)) sel.delete(id);
     body.replaceChildren(...f.slice(da, da + PER_PAGINA).map(riga));
     barra.conta(
-      q ? `${f.length} di ${tutte.length}` : `${tutte.length} elementi`,
+      (q ? `${f.length} di ${tutte.length}` : `${tutte.length} elementi`) +
+        (sel.size ? ` · ${sel.size} selezionati` : ""),
     );
+    const nSel = f.filter((r) => sel.has(r.id)).length;
+    chkTutti.checked = !!f.length && nSel === f.length;
+    chkTutti.indeterminate = nSel > 0 && nSel < f.length;
+    barraSel.aggiorna(sel.size);
+    btnTutti.hidden = !f.length;
+    btnTutti.lastChild.textContent = q ? "Elimina trovati" : "Elimina tutti";
     tw.hidden = !f.length;
     piede.replaceChildren(
       f.length > PER_PAGINA
@@ -177,6 +251,7 @@ export function DataTable({ colonne, righe, nome, onEdit, onDelete, onNew }) {
         h(
           "tr",
           {},
+          onDeleteMany && h("th", { class: "sel", scope: "col" }, chkTutti),
           ths,
           h("th", { class: "az" }, h("span", { class: "sr" }, "Azioni")),
         ),
@@ -184,7 +259,7 @@ export function DataTable({ colonne, righe, nome, onEdit, onDelete, onNew }) {
       body,
     ),
   );
-  const el = h("div", {}, barra, tw, vuoto, piede);
+  const el = h("div", {}, barra, tw, vuoto, piede, barraSel);
   el.aggiorna = (nuove) => ((tutte = nuove), disegna());
   disegna();
   return el;

@@ -1,0 +1,67 @@
+.selbar {
+  position: fixed;
+  left: 50%;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  translate: -50% 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 8px 8px 14px;
+  border-radius: var(--r-lg);
+  background: var(--ink);
+  color: var(--bg);
+  box-shadow: var(--pop);
+  max-width: calc(100vw - 24px);
+}
+.selbar[hidden] {
+  display: none;
+}
+.selbar-ic {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--ac);
+  color: var(--ac-ink);
+}
+.sb-testo {
+  margin-right: 8px;
+  font-weight: 550;
+  white-space: nowrap;
+}
+.sb-testo b {
+  font-weight: 700;
+}
+.selbar .btn.ghost {
+  color: inherit;
+  opacity: 0.8;
+}
+.selbar .btn.ghost:hover {
+  background: rgb(128 128 128 / 0.28);
+  color: inherit;
+  opacity: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .selbar:not([hidden]) {
+    animation: selbar-in 0.2s var(--ease);
+  }
+  @keyframes selbar-in {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+  }
+}
+@media (max-width: 640px) {
+  .selbar {
+    left: 12px;
+    right: 12px;
+    translate: none;
+    justify-content: space-between;
+  }
+  .sb-testo {
+    margin-right: auto;
+  }
+}

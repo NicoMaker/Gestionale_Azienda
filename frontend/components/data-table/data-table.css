@@ -117,3 +117,37 @@ tr:focus-within .az .btn {
     justify-content: flex-end;
   }
 }
+
+/* selezione multipla */
+th.sel,
+td.sel {
+  width: 1%;
+  padding: 0 0 0 16px;
+  text-align: center;
+}
+th.sel {
+  vertical-align: middle;
+}
+.dt-chk {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  accent-color: var(--ac);
+  cursor: pointer;
+  vertical-align: middle;
+}
+tbody tr.selezionata td {
+  background: var(--ac-soft);
+}
+.dt-barra .btn[hidden] {
+  display: none;
+}
+@media (max-width: 640px) {
+  td.sel {
+    justify-content: flex-start;
+    padding: 6px 0;
+  }
+  tr.selezionata {
+    border-color: var(--ac);
+  }
+}

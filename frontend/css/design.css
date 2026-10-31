@@ -1,0 +1,193 @@
+/* Rifinitura di interfaccia: caricato per ultimo, ritocca i componenti senza cambiarne la struttura */
+
+/* Tipografia: titoli compatti, numeri sempre allineati */
+h1 {
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+.sub {
+  max-width: 60ch;
+}
+.testa {
+  padding-bottom: 20px;
+  margin-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+/* Marchio e menu laterale */
+.marchio {
+  transform: none;
+  border-radius: 9px;
+}
+#sidebar {
+  background: var(--surface);
+}
+.sb-home,
+.sb-gruppo summary {
+  min-height: 42px;
+}
+.sb-gruppo[open] > summary {
+  background: var(--surface-2);
+}
+.sb-link {
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+}
+.sb-backup {
+  border-style: solid;
+  background: var(--surface-2);
+}
+
+/* Barra superiore */
+.topbar {
+  border-bottom: 1px solid transparent;
+}
+.cerca-rapida {
+  border-radius: var(--r-md);
+  box-shadow: 0 1px 0 var(--line);
+}
+
+/* Pulsanti: stati chiari, area tocco comoda */
+.btn {
+  min-height: 40px;
+  border-radius: var(--r-md);
+}
+.btn.primary {
+  box-shadow: 0 1px 0 rgb(0 0 0 / 0.12);
+}
+.btn.danger:hover {
+  background: color-mix(in srgb, var(--dn) 88%, black);
+}
+.btn.ghost.rosso {
+  color: var(--dn);
+}
+.btn.ghost.rosso:hover {
+  background: color-mix(in srgb, var(--dn) 10%, transparent);
+}
+.btn:focus-visible,
+.campo:focus-visible {
+  outline: 2px solid var(--ac);
+  outline-offset: 2px;
+}
+
+/* Barra della tabella: ricerca larga, azioni a destra */
+.dt-barra {
+  gap: 10px;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+}
+.dt-cerca {
+  max-width: 420px;
+}
+.dt-cerca .campo {
+  border-color: transparent;
+  background: var(--surface-2);
+}
+.dt-cerca .campo:focus {
+  background: var(--surface);
+  border-color: var(--ac);
+}
+.dt-conta {
+  font-size: 0.86rem;
+}
+
+/* Tabella */
+.tw {
+  border-radius: var(--r-lg);
+  box-shadow: 0 1px 2px light-dark(rgb(21 32 27 / 0.04), rgb(0 0 0 / 0.3));
+}
+th {
+  background: var(--surface-2);
+}
+th button {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+td {
+  padding: 11px 16px;
+  font-size: 0.92rem;
+}
+tbody tr:hover td {
+  background: var(--surface-2);
+}
+tbody tr.selezionata td {
+  background: var(--ac-soft);
+}
+tbody tr.selezionata td:first-child {
+  box-shadow: inset 3px 0 0 var(--ac);
+}
+.dt-chk {
+  width: 18px;
+  height: 18px;
+}
+.az .btn {
+  opacity: 0.35;
+}
+tr:hover .az .btn,
+tr:focus-within .az .btn {
+  opacity: 1;
+}
+
+/* Schede di categoria e sezione: il colore del gruppo marca il bordo alto */
+.cat {
+  border-top: 3px solid light-dark(oklch(0.58 0.14 var(--h)), oklch(0.72 0.12 var(--h)));
+  box-shadow: 0 1px 2px light-dark(rgb(21 32 27 / 0.04), rgb(0 0 0 / 0.3));
+}
+.cat:hover {
+  box-shadow: 0 6px 18px -10px light-dark(rgb(21 32 27 / 0.25), rgb(0 0 0 / 0.6));
+}
+.sez {
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.sez:hover {
+  box-shadow: 0 4px 14px -10px light-dark(rgb(21 32 27 / 0.3), rgb(0 0 0 / 0.6));
+}
+
+/* Finestre */
+dialog.modale {
+  border-radius: 16px;
+}
+.conferma-testo h2,
+.esito h2 {
+  font-size: 1.15rem;
+}
+.campo {
+  min-height: 42px;
+}
+
+/* Notifiche e barra di selezione */
+.toast {
+  border-radius: var(--r-md);
+}
+
+/* Schermi piccoli */
+@media (max-width: 640px) {
+  main {
+    padding-bottom: 110px;
+  }
+  .dt-barra {
+    padding: 8px;
+  }
+  .dt-cerca {
+    flex-basis: 100%;
+    max-width: none;
+  }
+  tr {
+    border-radius: var(--r-lg);
+  }
+  tr.selezionata {
+    box-shadow: inset 3px 0 0 var(--ac);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -7,6 +7,7 @@ import { DataTable } from "../components/data-table/data-table.js";
 import { apriForm } from "../components/modal-form/modal-form.js";
 import { conferma } from "../components/confirm-dialog/confirm-dialog.js";
 import { toast } from "../components/toast/toast.js";
+import { mostraEsito } from "../components/delete-report/delete-report.js";
 
 // Pagina generica: elenco + crea / modifica / elimina per una sezione di ENTITIES
 export async function EntityPage(nome) {
@@ -67,12 +68,40 @@ export async function EntityPage(nome) {
     }
   };
 
+  // Eliminazione multipla: i dati collegati ad altre tabelle vengono saltati dal server
+  const eliminaMolti = async (ids, tutti) => {
+    if (!ids.length) return;
+    const n = ids.length;
+    if (
+      !(await conferma({
+        titolo: tutti ? "Eliminare tutti gli elementi?" : "Eliminare gli elementi?",
+        testo: `${n === 1 ? "1 elemento verrà rimosso" : `${n} elementi verranno rimossi`} da ${E.titolo}. Quelli collegati ad altre tabelle non vengono eliminati. L'operazione non si può annullare.`,
+        azione: n === 1 ? "Elimina" : `Elimina ${n}`,
+      }))
+    )
+      return;
+    try {
+      const { eliminati, bloccati } = await api.post(
+        `${nome}/elimina`,
+        tutti ? { tutti: true } : { ids },
+      );
+      await ricarica();
+      if (bloccati.length) mostraEsito({ eliminati, bloccati, tabella: E.titolo });
+      else if (eliminati)
+        toast(eliminati === 1 ? "1 elemento eliminato" : `${eliminati} elementi eliminati`);
+      else toast("Nessun elemento da eliminare", "err");
+    } catch (e) {
+      toast(e.message, "err");
+    }
+  };
+
   const tabella = DataTable({
     colonne: E.colonne,
     righe,
     nome,
     onEdit: salva,
     onDelete: elimina,
+    onDeleteMany: eliminaMolti,
     onNew: () => salva(null),
   });
   const testa = PageHeader({
