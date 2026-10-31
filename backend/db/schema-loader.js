@@ -79,7 +79,8 @@ for (const t of tabelle) {
 const usataDa = Object.fromEntries(tabelle.map((t) => [t.nome, []]));
 for (const t of tabelle)
   for (const c of t.campi)
-    if (c.da) usataDa[c.da].push({ tabella: t.nome, titolo: t.titolo, campo: c.k });
+    if (c.da)
+      usataDa[c.da].push({ tabella: t.nome, titolo: t.titolo, campo: c.k });
 const tabella = (n) => per[n];
 // Schema pubblico per il front (senza SQL)
 const schemaFront = () =>

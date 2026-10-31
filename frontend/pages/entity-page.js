@@ -74,7 +74,9 @@ export async function EntityPage(nome) {
     const n = ids.length;
     if (
       !(await conferma({
-        titolo: tutti ? "Eliminare tutti gli elementi?" : "Eliminare gli elementi?",
+        titolo: tutti
+          ? "Eliminare tutti gli elementi?"
+          : "Eliminare gli elementi?",
         testo: `${n === 1 ? "1 elemento verrà rimosso" : `${n} elementi verranno rimossi`} da ${E.titolo}. Quelli collegati ad altre tabelle non vengono eliminati. L'operazione non si può annullare.`,
         azione: n === 1 ? "Elimina" : `Elimina ${n}`,
       }))
@@ -86,9 +88,14 @@ export async function EntityPage(nome) {
         tutti ? { tutti: true } : { ids },
       );
       await ricarica();
-      if (bloccati.length) mostraEsito({ eliminati, bloccati, tabella: E.titolo });
+      if (bloccati.length)
+        mostraEsito({ eliminati, bloccati, tabella: E.titolo });
       else if (eliminati)
-        toast(eliminati === 1 ? "1 elemento eliminato" : `${eliminati} elementi eliminati`);
+        toast(
+          eliminati === 1
+            ? "1 elemento eliminato"
+            : `${eliminati} elementi eliminati`,
+        );
       else toast("Nessun elemento da eliminare", "err");
     } catch (e) {
       toast(e.message, "err");

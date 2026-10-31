@@ -7,8 +7,14 @@ const MAX = 8;
 // Riepilogo dopo un'eliminazione multipla in cui alcuni elementi sono rimasti perché collegati.
 // Dice cosa è stato eliminato e, per ogni elemento rimasto, dove è usato.
 export function mostraEsito({ eliminati, bloccati, tabella }) {
-  const ok = eliminati === 1 ? "1 elemento eliminato" : `${eliminati} elementi eliminati`;
-  const no = bloccati.length === 1 ? "1 elemento non eliminato" : `${bloccati.length} elementi non eliminati`;
+  const ok =
+    eliminati === 1
+      ? "1 elemento eliminato"
+      : `${eliminati} elementi eliminati`;
+  const no =
+    bloccati.length === 1
+      ? "1 elemento non eliminato"
+      : `${bloccati.length} elementi non eliminati`;
   const dlg = apriDialog({
     classe: "modale",
     role: "dialog",
@@ -16,7 +22,13 @@ export function mostraEsito({ eliminati, bloccati, tabella }) {
       h(
         "div",
         { class: "esito" },
-        h("h2", {}, eliminati ? `${ok}, ${bloccati.length === 1 ? "1 rimasto" : `${bloccati.length} rimasti`}` : no),
+        h(
+          "h2",
+          {},
+          eliminati
+            ? `${ok}, ${bloccati.length === 1 ? "1 rimasto" : `${bloccati.length} rimasti`}`
+            : no,
+        ),
         h(
           "p",
           {},
@@ -25,21 +37,32 @@ export function mostraEsito({ eliminati, bloccati, tabella }) {
         h(
           "ul",
           { class: "esito-lista" },
-          bloccati.slice(0, MAX).map((b) =>
+          bloccati
+            .slice(0, MAX)
+            .map((b) =>
+              h(
+                "li",
+                {},
+                h("b", {}, b.etichetta || `Elemento ${b.id}`),
+                h("small", {}, `Usato in ${b.usato_in}`),
+              ),
+            ),
+          bloccati.length > MAX &&
             h(
               "li",
-              {},
-              h("b", {}, b.etichetta || `Elemento ${b.id}`),
-              h("small", {}, `Usato in ${b.usato_in}`),
+              { class: "esito-altri" },
+              `e altri ${bloccati.length - MAX}`,
             ),
-          ),
-          bloccati.length > MAX && h("li", { class: "esito-altri" }, `e altri ${bloccati.length - MAX}`),
         ),
       ),
       h(
         "div",
         { class: "mf-az" },
-        Button({ testo: "Ho capito", variante: "primary", onclick: () => dlg.close() }),
+        Button({
+          testo: "Ho capito",
+          variante: "primary",
+          onclick: () => dlg.close(),
+        }),
       ),
     ],
   });

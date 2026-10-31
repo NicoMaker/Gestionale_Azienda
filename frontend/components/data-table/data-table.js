@@ -68,7 +68,11 @@ export function DataTable({
   // Esc toglie la selezione (il listener si rimuove da solo quando la tabella esce dalla pagina)
   const suEsc = (e) => {
     if (!el.isConnected) return document.removeEventListener("keydown", suEsc);
-    if (e.key === "Escape" && sel.size && !document.querySelector("dialog[open]"))
+    if (
+      e.key === "Escape" &&
+      sel.size &&
+      !document.querySelector("dialog[open]")
+    )
       deseleziona();
   };
   document.addEventListener("keydown", suEsc);

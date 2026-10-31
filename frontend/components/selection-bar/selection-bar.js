@@ -9,11 +9,21 @@ export function SelectionBar({ onElimina, onAnnulla }) {
   const testo = h("span", { class: "sb-testo" });
   const el = h(
     "div",
-    { class: "selbar", role: "region", "aria-label": "Elementi selezionati", hidden: true },
+    {
+      class: "selbar",
+      role: "region",
+      "aria-label": "Elementi selezionati",
+      hidden: true,
+    },
     h("span", { class: "selbar-ic", html: icona("check", 16) }),
     testo,
     Button({ testo: "Deseleziona", variante: "ghost", onclick: onAnnulla }),
-    Button({ testo: "Elimina", icon: "trash", variante: "danger", onclick: onElimina }),
+    Button({
+      testo: "Elimina",
+      icon: "trash",
+      variante: "danger",
+      onclick: onElimina,
+    }),
   );
   testo.append(n, " selezionati");
   el.aggiorna = (tot) => {

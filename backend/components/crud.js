@@ -88,9 +88,14 @@ module.exports = (t) => {
     wrap(async (req, res) => {
       const { ids, tutti } = req.body || {};
       let lista;
-      if (tutti) lista = (await db.all(`SELECT id FROM ${q(t.nome)}`)).map((x) => x.id);
-      else if (Array.isArray(ids)) lista = [...new Set(ids.map(Number))].filter(Number.isInteger);
-      else throw Object.assign(new Error("Nessun elemento indicato"), { status: 400 });
+      if (tutti)
+        lista = (await db.all(`SELECT id FROM ${q(t.nome)}`)).map((x) => x.id);
+      else if (Array.isArray(ids))
+        lista = [...new Set(ids.map(Number))].filter(Number.isInteger);
+      else
+        throw Object.assign(new Error("Nessun elemento indicato"), {
+          status: 400,
+        });
 
       const usati = await collegamenti();
       const liberi = lista.filter((id) => !usati.has(id));
